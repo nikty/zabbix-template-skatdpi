@@ -1,6 +1,6 @@
 zabbix_export:
   version: '6.2'
-  date: '2022-11-07T08:42:10Z'
+  date: '2022-11-21T14:10:49Z'
   template_groups:
     -
       uuid: 7df96b18c230490a9a0a9e2307226338
@@ -104,11 +104,25 @@ zabbix_export:
           key: dpi.int.bridge_out.out.pkts
           units: pps
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out.pkts[*,out]))'
+        -
+          uuid: 4498f7da0a314562a7fcc88469a13d96
+          name: 'FastDPI control port state'
+          key: 'net.tcp.service[tcp,,{$SKATDPI_FASTDPI_CONTROL_PORT}]'
+          history: 30d
+          triggers:
+            -
+              uuid: 0345ffb88a3c4668a146c39b76657011
+              expression: 'last(/SkatDPI/net.tcp.service[tcp,,{$SKATDPI_FASTDPI_CONTROL_PORT}])=0'
+              name: 'fastdpi control port is down'
+              priority: HIGH
+              tags:
+                -
+                  tag: skatdpi
       discovery_rules:
         -
           uuid: afd808276b284651b6dfaec23eb006a8
           name: 'Discover interfaces'
-          key: test.dpi.int.discovery
+          key: dpi.int.discovery
           delay: 1d
           item_prototypes:
             -
@@ -535,6 +549,68 @@ zabbix_export:
             -
               lld_macro: '{#IFBRIDGE}'
               path: $.bridge
+      tags:
+        -
+          tag: skatdpi
+      macros:
+        -
+          macro: '{$SKATDPI_FASTDPI_CONTROL_PORT}'
+          value: '29000'
+      dashboards:
+        -
+          uuid: bea68c27bb884addad967a1bec303156
+          name: 'SkatDPI Network interfaces'
+          pages:
+            -
+              widgets:
+                -
+                  type: GRAPH_CLASSIC
+                  width: '12'
+                  height: '4'
+                  fields:
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        host: SkatDPI
+                        name: 'Total traffic for In Bridge'
+                -
+                  type: GRAPH_CLASSIC
+                  'y': '4'
+                  width: '12'
+                  height: '5'
+                  fields:
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        host: SkatDPI
+                        name: 'Total traffic for Out Bridge'
+                -
+                  type: GRAPH_CLASSIC
+                  x: '12'
+                  width: '12'
+                  height: '4'
+                  fields:
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        host: SkatDPI
+                        name: 'Total packets for In Bridge'
+                -
+                  type: GRAPH_CLASSIC
+                  x: '12'
+                  'y': '4'
+                  width: '12'
+                  height: '5'
+                  fields:
+                    -
+                      type: GRAPH
+                      name: graphid
+                      value:
+                        host: SkatDPI
+                        name: 'Total packets for Out Bridge'
       valuemaps:
         -
           uuid: 92affb9545924c67a55c701c24031136
