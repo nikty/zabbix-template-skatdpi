@@ -1,6 +1,6 @@
 zabbix_export:
   version: '6.2'
-  date: '2022-11-21T14:10:49Z'
+  date: '2022-12-01T14:12:54Z'
   template_groups:
     -
       uuid: 7df96b18c230490a9a0a9e2307226338
@@ -31,12 +31,18 @@ zabbix_export:
           key: dpi.int.bridge_in.in
           units: bps
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in[*,in]))'
+          tags:
+            -
+              tag: skatdpi
         -
           uuid: 3f54a984863243d99f3db18036a28811
           name: 'Total inbound packets with errors for In Bridge'
           type: CALCULATED
           key: dpi.int.bridge_in.in.errors
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in.errors[*,in]))'
+          tags:
+            -
+              tag: skatdpi
         -
           uuid: e137168b1a274e92a9534095728768ac
           name: 'Total inbound packets for In Bridge'
@@ -44,6 +50,9 @@ zabbix_export:
           key: dpi.int.bridge_in.in.pkts
           units: pps
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in.pkts[*,in]))'
+          tags:
+            -
+              tag: skatdpi
         -
           uuid: 1e49b0aa81a94c449620cbc29ec0fa92
           name: 'Total outbound traffic for In Bridge'
@@ -51,12 +60,18 @@ zabbix_export:
           key: dpi.int.bridge_in.out
           units: bps
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out[*,in]))'
+          tags:
+            -
+              tag: skatdpi
         -
           uuid: 25fe2a650d634a6297721fcb261985fd
           name: 'Total outbound packets with errors for In Bridge'
           type: CALCULATED
           key: dpi.int.bridge_in.out.errors
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out.errors[*,in]))'
+          tags:
+            -
+              tag: skatdpi
         -
           uuid: 22bbd3dbd9dc4960b177bd603b23addb
           name: 'Total outbound packets for In Bridge'
@@ -64,6 +79,9 @@ zabbix_export:
           key: dpi.int.bridge_in.out.pkts
           units: pps
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out.pkts[*,in]))'
+          tags:
+            -
+              tag: skatdpi
         -
           uuid: f2fd7ffffdfa4485b2aad48612401b47
           name: 'Total inbound traffic for Out Bridge'
@@ -71,12 +89,18 @@ zabbix_export:
           key: dpi.int.bridge_out.in
           units: bps
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in[*,out]))'
+          tags:
+            -
+              tag: skatdpi
         -
           uuid: e762efc6ff1a47e1aafab280ff3f2b83
           name: 'Total inbound packets with errors for Out Bridge'
           type: CALCULATED
           key: dpi.int.bridge_out.in.errors
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in.errors[*,out]))'
+          tags:
+            -
+              tag: skatdpi
         -
           uuid: 500eba7d27a14ba88255f8b291f731f4
           name: 'Total inbound packets for Out Bridge'
@@ -84,6 +108,9 @@ zabbix_export:
           key: dpi.int.bridge_out.in.pkts
           units: pps
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in.pkts[*,out]))'
+          tags:
+            -
+              tag: skatdpi
         -
           uuid: 291144f5540b4c63b26201f66c206e9f
           name: 'Total outbound traffic for Out Bridge'
@@ -91,12 +118,18 @@ zabbix_export:
           key: dpi.int.bridge_out.out
           units: bps
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out[*,out]))'
+          tags:
+            -
+              tag: skatdpi
         -
           uuid: e5d72550727b43f4b14937b34e820458
           name: 'Total outbound packets with errors for Out Bridge'
           type: CALCULATED
           key: dpi.int.bridge_out.out.errors
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out.errors[*,out]))'
+          tags:
+            -
+              tag: skatdpi
         -
           uuid: 54d6963f939c4ebdb018c0c8dda3c077
           name: 'Total outbound packets for Out Bridge'
@@ -104,11 +137,18 @@ zabbix_export:
           key: dpi.int.bridge_out.out.pkts
           units: pps
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out.pkts[*,out]))'
+          tags:
+            -
+              tag: skatdpi
         -
           uuid: 4498f7da0a314562a7fcc88469a13d96
           name: 'FastDPI control port state'
           key: 'net.tcp.service[tcp,,{$SKATDPI_FASTDPI_CONTROL_PORT}]'
           history: 30d
+          tags:
+            -
+              tag: application
+              value: fastdpi
           triggers:
             -
               uuid: 0345ffb88a3c4668a146c39b76657011
@@ -528,6 +568,9 @@ zabbix_export:
                   name: 'Interface {#DEVNAME}: Link down'
                   opdata: 'Current state: {ITEM.LASTVALUE1}'
                   priority: AVERAGE
+                  tags:
+                    -
+                      tag: skatdpi
             -
               uuid: d154536b7c624f7d8f5c0319642a2d4f
               name: 'Interface statistics for {#IFNAME} (xstat)'
@@ -550,6 +593,9 @@ zabbix_export:
               lld_macro: '{#IFBRIDGE}'
               path: $.bridge
       tags:
+        -
+          tag: application
+          value: fastdpi
         -
           tag: skatdpi
       macros:

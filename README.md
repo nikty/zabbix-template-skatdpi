@@ -20,9 +20,37 @@ Configure Zabbix agent:
 - Copy *skatdpi_discover_interfaces.pl* into */etc/zabbix/scripts*
 - Copy *fastdpi_log_stats.awk* into */etc/zabbix/scripts*
 
+## Macros used
+
+|Name|Description|Default|
+|----|-----------|-------|
+| {$SKATDPI_FASTDPI_CONTROL_PORT} | Port that fastdpi listens to | 29000 |
+
+## Template links
+
+There are no template links in this template.
+
+## Discovery rules
+
+* DPI interfaces discovery
+
+Description: 
+
+Type: ZABBIX_PASSIVE
+
+Key: `dpi.int.discovery`
+    
+Type: ZABBIX_PASSIVE
+  
+
 ## Items collected
 
-TODO
 
+## Items collected
+
+|Group|Name|Description|Type|Key and additional info|
+|-----|----|-----------|----|---------------------|
+| - | Interface statistics for {#IFNAME} (xstat) | - | ZABBIX_PASSIVE | dpi.int.xstat[{#IFNAME},{#IFBRIDGE}] |
+| - | Interface {#IFNAME}: Bits sent (xstat) | - | DEPENDENT | `dpi.int.out[{#IFNAME},{#IFBRIDGE}] |
 
 
