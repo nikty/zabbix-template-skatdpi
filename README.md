@@ -51,6 +51,6 @@ Type: ZABBIX_PASSIVE
 |Group|Name|Description|Type|Key and additional info|
 |-----|----|-----------|----|---------------------|
 | - | Interface statistics for {#IFNAME} (xstat) | - | ZABBIX_PASSIVE | dpi.int.xstat[{#IFNAME},{#IFBRIDGE}] |
-| - | Interface {#IFNAME}: Bits sent (xstat) | - | DEPENDENT | `dpi.int.out[{#IFNAME},{#IFBRIDGE}] |
+| - | Interface {#IFNAME}: Bits sent (xstat) | - | DEPENDENT | dpi.int.out[{#IFNAME},{#IFBRIDGE}] |
 
 
