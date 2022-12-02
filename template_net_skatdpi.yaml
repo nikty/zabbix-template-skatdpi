@@ -1,6 +1,6 @@
 zabbix_export:
   version: '6.2'
-  date: '2022-12-01T14:12:54Z'
+  date: '2022-12-02T13:06:51Z'
   template_groups:
     -
       uuid: 7df96b18c230490a9a0a9e2307226338
@@ -149,6 +149,8 @@ zabbix_export:
             -
               tag: application
               value: fastdpi
+            -
+              tag: skatdpi
           triggers:
             -
               uuid: 0345ffb88a3c4668a146c39b76657011
@@ -158,6 +160,145 @@ zabbix_export:
               tags:
                 -
                   tag: skatdpi
+        -
+          uuid: 2daa69b94b9941319b8d3bb4e3edf452
+          name: 'Subscribers with auth status: authorized'
+          type: DEPENDENT
+          key: skatdpi.subs.auth.authorized
+          delay: '0'
+          description: 'Number of subscribers with ''inprogress_abj'' status'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - authorized=(\d+)
+                - \1
+          master_item:
+            key: skatdpi.subs.auth.stats
+          tags:
+            -
+              tag: application
+              value: fastdpi
+            -
+              tag: skatdpi
+        -
+          uuid: b5ccafeaee384c7b9cf5e56a62141a5a
+          name: 'Subscribers with auth status: inprogress'
+          type: DEPENDENT
+          key: skatdpi.subs.auth.inprogress
+          delay: '0'
+          description: 'Number of subscribers with ''inprogress'' status'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - inprogress=(\d+)
+                - \1
+          master_item:
+            key: skatdpi.subs.auth.stats
+          tags:
+            -
+              tag: application
+              value: fastdpi
+            -
+              tag: skatdpi
+        -
+          uuid: daf30d5be3044bb4bb719b1e9157c15f
+          name: 'Subscribers with auth status: inprogress_abj'
+          type: DEPENDENT
+          key: skatdpi.subs.auth.inprogress_abj
+          delay: '0'
+          description: 'Number of subscribers with ''inprogress_abj'' status'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - inprogress_abj=(\d+)
+                - \1
+          master_item:
+            key: skatdpi.subs.auth.stats
+          tags:
+            -
+              tag: application
+              value: fastdpi
+            -
+              tag: skatdpi
+        -
+          uuid: e159a353e00749b8af56cef78ee7b11a
+          name: 'Total subscribers statistics'
+          key: skatdpi.subs.auth.stats
+          history: '0'
+          trends: '0'
+          value_type: TEXT
+          tags:
+            -
+              tag: application
+              value: fastdpi
+            -
+              tag: skatdpi
+        -
+          uuid: c12a32f4ccc34e45abde5aff4da59ed5
+          name: 'Total number of subscribers'
+          type: DEPENDENT
+          key: skatdpi.subs.auth.total
+          delay: '0'
+          description: 'Total number of subscribers'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - 'TOTAL:\s*(\d*)\s*recs'
+                - \1
+          master_item:
+            key: skatdpi.subs.auth.stats
+          tags:
+            -
+              tag: application
+              value: fastdpi
+            -
+              tag: skatdpi
+        -
+          uuid: ace9868b7cb345399d236a6385c4ec0a
+          name: 'Subscribers with auth status: unauthorized'
+          type: DEPENDENT
+          key: skatdpi.subs.auth.unauthorized
+          delay: '0'
+          description: 'Number of subscribers with ''inprogress_abj'' status'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - unauthorized=(\d+)
+                - \1
+          master_item:
+            key: skatdpi.subs.auth.stats
+          tags:
+            -
+              tag: application
+              value: fastdpi
+            -
+              tag: skatdpi
+        -
+          uuid: a0f1ca1339a146c98ded7107c69c0d8b
+          name: 'Subscribers with auth status: unknown'
+          type: DEPENDENT
+          key: skatdpi.subs.auth.unknown
+          delay: '0'
+          description: 'Number of subscribers with ''unknown'' status'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - unknown=(\d+)
+                - \1
+          master_item:
+            key: skatdpi.subs.auth.stats
+          tags:
+            -
+              tag: application
+              value: fastdpi
+            -
+              tag: skatdpi
       discovery_rules:
         -
           uuid: afd808276b284651b6dfaec23eb006a8
@@ -600,6 +741,9 @@ zabbix_export:
           tag: skatdpi
       macros:
         -
+          macro: '{$SKATDPI_AUTHORIZED_SUBSCRIBERS_PERCENTAGE}'
+          value: '90'
+        -
           macro: '{$SKATDPI_FASTDPI_CONTROL_PORT}'
           value: '29000'
       dashboards:
@@ -668,6 +812,16 @@ zabbix_export:
             -
               value: '2'
               newvalue: down
+  triggers:
+    -
+      uuid: 516fd374009f420390248a40a5c4fc85
+      expression: 'last(/SkatDPI/skatdpi.subs.auth.authorized) < last(/SkatDPI/skatdpi.subs.auth.total) * ({$SKATDPI_AUTHORIZED_SUBSCRIBERS_PERCENTAGE}/100)'
+      name: 'Authorization ratio is low'
+      opdata: '{ITEM.VALUE1} subscribers are authorized out of total {ITEM.VALUE2}'
+      priority: WARNING
+      tags:
+        -
+          tag: skatdpi
   graphs:
     -
       uuid: 22687feb1edc465391c5348150e67935
