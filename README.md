@@ -32,19 +32,11 @@ There are no template links in this template.
 
 ## Discovery rules
 
-* DPI interfaces discovery
-
-Description: 
-
-Type: ZABBIX_PASSIVE
-
-Key: `dpi.int.discovery`
+|Name|Description|Type|Key and additional info|
+| DPI interfaces discovery | - | ZABBIX_PASSIVE | dpi.int.discovery |
     
 Type: ZABBIX_PASSIVE
   
-
-## Items collected
-
 
 ## Items collected
 
