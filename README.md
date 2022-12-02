@@ -45,5 +45,6 @@ Type: ZABBIX_PASSIVE
 |-----|----|-----------|----|---------------------|
 | - | Interface statistics for {#IFNAME} (xstat) | - | ZABBIX_PASSIVE | dpi.int.xstat[{#IFNAME},{#IFBRIDGE}] |
 | - | Interface {#IFNAME}: Bits sent (xstat) | - | DEPENDENT | dpi.int.out[{#IFNAME},{#IFBRIDGE}] |
-
+| - | Interface {#IFNAME}: Operational status (xstat) | Status of DPI interface link | DEPENDENT | dpi.int.status[{#IFNAME},{#IFBRIDGE}] |
+| - | Interface {#IFNAME}: Bits sent (xstat) | - | DEPENDENT | dpi.int.out[{#IFNAME},{#IFBRIDGE}] <p>**Preprocessing**:</p><p>- CHANGE_PER_SECOND</p><p>- MULTIPLIER: `9`</p> | 
 
