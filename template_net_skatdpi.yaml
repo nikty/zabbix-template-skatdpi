@@ -1,6 +1,6 @@
 zabbix_export:
   version: '6.2'
-  date: '2022-12-02T13:06:51Z'
+  date: '2022-12-26T06:35:05Z'
   template_groups:
     -
       uuid: 7df96b18c230490a9a0a9e2307226338
@@ -33,6 +33,9 @@ zabbix_export:
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in[*,in]))'
           tags:
             -
+              tag: component
+              value: network
+            -
               tag: skatdpi
         -
           uuid: 3f54a984863243d99f3db18036a28811
@@ -41,6 +44,9 @@ zabbix_export:
           key: dpi.int.bridge_in.in.errors
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in.errors[*,in]))'
           tags:
+            -
+              tag: component
+              value: network
             -
               tag: skatdpi
         -
@@ -52,6 +58,9 @@ zabbix_export:
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in.pkts[*,in]))'
           tags:
             -
+              tag: component
+              value: network
+            -
               tag: skatdpi
         -
           uuid: 1e49b0aa81a94c449620cbc29ec0fa92
@@ -62,6 +71,9 @@ zabbix_export:
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out[*,in]))'
           tags:
             -
+              tag: component
+              value: network
+            -
               tag: skatdpi
         -
           uuid: 25fe2a650d634a6297721fcb261985fd
@@ -70,6 +82,9 @@ zabbix_export:
           key: dpi.int.bridge_in.out.errors
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out.errors[*,in]))'
           tags:
+            -
+              tag: component
+              value: network
             -
               tag: skatdpi
         -
@@ -81,6 +96,9 @@ zabbix_export:
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out.pkts[*,in]))'
           tags:
             -
+              tag: component
+              value: network
+            -
               tag: skatdpi
         -
           uuid: f2fd7ffffdfa4485b2aad48612401b47
@@ -91,6 +109,9 @@ zabbix_export:
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in[*,out]))'
           tags:
             -
+              tag: component
+              value: network
+            -
               tag: skatdpi
         -
           uuid: e762efc6ff1a47e1aafab280ff3f2b83
@@ -99,6 +120,9 @@ zabbix_export:
           key: dpi.int.bridge_out.in.errors
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in.errors[*,out]))'
           tags:
+            -
+              tag: component
+              value: network
             -
               tag: skatdpi
         -
@@ -110,6 +134,9 @@ zabbix_export:
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in.pkts[*,out]))'
           tags:
             -
+              tag: component
+              value: network
+            -
               tag: skatdpi
         -
           uuid: 291144f5540b4c63b26201f66c206e9f
@@ -120,6 +147,9 @@ zabbix_export:
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out[*,out]))'
           tags:
             -
+              tag: component
+              value: network
+            -
               tag: skatdpi
         -
           uuid: e5d72550727b43f4b14937b34e820458
@@ -128,6 +158,9 @@ zabbix_export:
           key: dpi.int.bridge_out.out.errors
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out.errors[*,out]))'
           tags:
+            -
+              tag: component
+              value: network
             -
               tag: skatdpi
         -
@@ -139,7 +172,26 @@ zabbix_export:
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out.pkts[*,out]))'
           tags:
             -
+              tag: component
+              value: network
+            -
               tag: skatdpi
+        -
+          uuid: e857e826c07049eebdc0805254c2cd16
+          name: 'Number of errros in FastDPI''s main log'
+          type: ZABBIX_ACTIVE
+          key: 'logrt.count[{$SKATDPI_FASTDPI_ALERT_LOG},"ERROR|CRITICAL"]'
+          history: 7d
+          trends: '0'
+        -
+          uuid: b881b29fad714ab788408cc215a49651
+          name: 'Errors in FastDPI''s main log'
+          type: ZABBIX_ACTIVE
+          key: 'logrt[{$SKATDPI_FASTDPI_ALERT_LOG},"ERROR|CRITICAL"]'
+          history: 7d
+          trends: '0'
+          value_type: LOG
+          logtimefmt: '+++++++++++yyyy/MM/dd-hh:mm:ss'
         -
           uuid: 4498f7da0a314562a7fcc88469a13d96
           name: 'FastDPI control port state'
@@ -161,6 +213,49 @@ zabbix_export:
                 -
                   tag: skatdpi
         -
+          uuid: b6ac1850df384b4495ba946aabf23e6e
+          name: 'FastPCRF server #1 is accepting conections'
+          key: 'net.tcp.service[tcp,{$SKATDPI_FASTPCRF_ADDRESS_1},{$SKATDPI_FASTPCRF_PORT_1}]'
+          description: 'Check if FastPCRF server is accessible from SkatDPI server.'
+          tags:
+            -
+              tag: component
+              value: fastpcrf
+            -
+              tag: skatdpi
+            -
+              tag: skatdpi
+              value: fastpcrf
+          triggers:
+            -
+              uuid: b6727ea138294bb0afaabebd41126910
+              expression: 'last(/SkatDPI/net.tcp.service[tcp,{$SKATDPI_FASTPCRF_ADDRESS_1},{$SKATDPI_FASTPCRF_PORT_1}])=0'
+              name: 'FastPCRF Server #1 is not accessible'
+              priority: HIGH
+              tags:
+                -
+                  tag: skatdpi
+        -
+          uuid: ef369be50d344808822f9d0b51774dc0
+          name: 'FastPCRF server #2 is accepting conections'
+          key: 'net.tcp.service[tcp,{$SKATDPI_FASTPCRF_ADDRESS_2},{$SKATDPI_FASTPCRF_PORT_2}]'
+          status: DISABLED
+          tags:
+            -
+              tag: component
+              value: fastpcrf
+            -
+              tag: skatdpi
+            -
+              tag: skatdpi
+              value: fastpcrf
+          triggers:
+            -
+              uuid: 066b43c69fb24b13ae4291a8412b27a5
+              expression: 'last(/SkatDPI/net.tcp.service[tcp,{$SKATDPI_FASTPCRF_ADDRESS_2},{$SKATDPI_FASTPCRF_PORT_2}])=0'
+              name: 'FastPCRF Server #2 is not accessible'
+              priority: HIGH
+        -
           uuid: 2daa69b94b9941319b8d3bb4e3edf452
           name: 'Subscribers with auth status: authorized'
           type: DEPENDENT
@@ -181,6 +276,8 @@ zabbix_export:
               value: fastdpi
             -
               tag: skatdpi
+            -
+              tag: subscribers
         -
           uuid: b5ccafeaee384c7b9cf5e56a62141a5a
           name: 'Subscribers with auth status: inprogress'
@@ -202,6 +299,8 @@ zabbix_export:
               value: fastdpi
             -
               tag: skatdpi
+            -
+              tag: subscribers
         -
           uuid: daf30d5be3044bb4bb719b1e9157c15f
           name: 'Subscribers with auth status: inprogress_abj'
@@ -223,6 +322,8 @@ zabbix_export:
               value: fastdpi
             -
               tag: skatdpi
+            -
+              tag: subscribers
         -
           uuid: e159a353e00749b8af56cef78ee7b11a
           name: 'Total subscribers statistics'
@@ -236,6 +337,8 @@ zabbix_export:
               value: fastdpi
             -
               tag: skatdpi
+            -
+              tag: subscribers
         -
           uuid: c12a32f4ccc34e45abde5aff4da59ed5
           name: 'Total number of subscribers'
@@ -257,6 +360,8 @@ zabbix_export:
               value: fastdpi
             -
               tag: skatdpi
+            -
+              tag: subscribers
         -
           uuid: ace9868b7cb345399d236a6385c4ec0a
           name: 'Subscribers with auth status: unauthorized'
@@ -278,6 +383,8 @@ zabbix_export:
               value: fastdpi
             -
               tag: skatdpi
+            -
+              tag: subscribers
         -
           uuid: a0f1ca1339a146c98ded7107c69c0d8b
           name: 'Subscribers with auth status: unknown'
@@ -299,6 +406,8 @@ zabbix_export:
               value: fastdpi
             -
               tag: skatdpi
+            -
+              tag: subscribers
       discovery_rules:
         -
           uuid: afd808276b284651b6dfaec23eb006a8
@@ -314,6 +423,9 @@ zabbix_export:
               trends: '0'
               value_type: TEXT
               tags:
+                -
+                  tag: component
+                  value: network
                 -
                   tag: interface
                   value: '{#IFNAME}'
@@ -342,6 +454,9 @@ zabbix_export:
                 key: 'dpi.int.allstats[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
+                  tag: component
+                  value: network
+                -
                   tag: interface
                   value: '{#IFNAME}'
                 -
@@ -366,6 +481,9 @@ zabbix_export:
               master_item:
                 key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
+                -
+                  tag: component
+                  value: network
                 -
                   tag: interface
                   value: '{#IFNAME}'
@@ -392,6 +510,9 @@ zabbix_export:
                 key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
+                  tag: component
+                  value: network
+                -
                   tag: interface
                   value: '{#IFNAME}'
                 -
@@ -414,6 +535,9 @@ zabbix_export:
               master_item:
                 key: 'dpi.int.allstats[{#IFNAME},{#IFBRIDGE}]'
               tags:
+                -
+                  tag: component
+                  value: network
                 -
                   tag: interface
                   value: '{#IFNAME}'
@@ -440,6 +564,9 @@ zabbix_export:
               master_item:
                 key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
+                -
+                  tag: component
+                  value: network
                 -
                   tag: interface
                   value: '{#IFNAME}'
@@ -468,6 +595,9 @@ zabbix_export:
               master_item:
                 key: 'dpi.int.allstats[{#IFNAME},{#IFBRIDGE}]'
               tags:
+                -
+                  tag: component
+                  value: network
                 -
                   tag: interface
                   value: '{#IFNAME}'
@@ -499,6 +629,9 @@ zabbix_export:
                 key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
+                  tag: component
+                  value: network
+                -
                   tag: interface
                   value: '{#IFNAME}'
                 -
@@ -524,6 +657,9 @@ zabbix_export:
                 key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
+                  tag: component
+                  value: network
+                -
                   tag: interface
                   value: '{#IFNAME}'
                 -
@@ -548,6 +684,9 @@ zabbix_export:
               master_item:
                 key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
+                -
+                  tag: component
+                  value: network
                 -
                   tag: interface
                   value: '{#IFNAME}'
@@ -576,6 +715,9 @@ zabbix_export:
                 key: 'dpi.int.allstats[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
+                  tag: component
+                  value: network
+                -
                   tag: interface
                   value: '{#IFNAME}'
                 -
@@ -601,6 +743,9 @@ zabbix_export:
               master_item:
                 key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
+                -
+                  tag: component
+                  value: network
                 -
                   tag: interface
                   value: '{#IFNAME}'
@@ -629,6 +774,9 @@ zabbix_export:
               master_item:
                 key: 'dpi.int.allstats[{#IFNAME},{#IFBRIDGE}]'
               tags:
+                -
+                  tag: component
+                  value: network
                 -
                   tag: interface
                   value: '{#IFNAME}'
@@ -659,6 +807,9 @@ zabbix_export:
               master_item:
                 key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
+                -
+                  tag: component
+                  value: network
                 -
                   tag: interface
                   value: '{#IFNAME}'
@@ -694,6 +845,9 @@ zabbix_export:
                 key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
+                  tag: component
+                  value: network
+                -
                   tag: interface
                   value: '{#IFNAME}'
                 -
@@ -722,6 +876,9 @@ zabbix_export:
               description: 'Statistics for the interface as reported by command "fdpi_cli dev xstat".'
               tags:
                 -
+                  tag: component
+                  value: network
+                -
                   tag: interface
                   value: '{#IFNAME}'
                 -
@@ -743,6 +900,9 @@ zabbix_export:
         -
           macro: '{$SKATDPI_AUTHORIZED_SUBSCRIBERS_PERCENTAGE}'
           value: '90'
+        -
+          macro: '{$SKATDPI_FASTDPI_ALERT_LOG}'
+          value: /var/log/dpi/fastdpi_alert.log
         -
           macro: '{$SKATDPI_FASTDPI_CONTROL_PORT}'
           value: '29000'
