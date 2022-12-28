@@ -1,6 +1,6 @@
 zabbix_export:
   version: '6.2'
-  date: '2022-12-26T06:35:05Z'
+  date: '2022-12-28T09:33:14Z'
   template_groups:
     -
       uuid: 7df96b18c230490a9a0a9e2307226338
@@ -279,6 +279,52 @@ zabbix_export:
             -
               tag: subscribers
         -
+          uuid: 73899c47cfef497aab22cb2b62c54122
+          name: 'Authorized subscribers: active'
+          type: DEPENDENT
+          key: skatdpi.subs.auth.authorized.active
+          delay: '0'
+          description: 'Number of subscribers with ''inprogress_abj'' status'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - '(?m)^Active: (\d+)'
+                - \1
+          master_item:
+            key: skatdpi.subs.auth.stats
+          tags:
+            -
+              tag: application
+              value: fastdpi
+            -
+              tag: skatdpi
+            -
+              tag: subscribers
+        -
+          uuid: fcd0fbe29bc040a0a5c3ba7ce7ecff5a
+          name: 'Authorized subscribers: expired'
+          type: DEPENDENT
+          key: skatdpi.subs.auth.authorized.expired
+          delay: '0'
+          description: 'Number of subscribers with ''inprogress_abj'' status'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - '(?m)^Expired: (\d+)'
+                - \1
+          master_item:
+            key: skatdpi.subs.auth.stats
+          tags:
+            -
+              tag: application
+              value: fastdpi
+            -
+              tag: skatdpi
+            -
+              tag: subscribers
+        -
           uuid: b5ccafeaee384c7b9cf5e56a62141a5a
           name: 'Subscribers with auth status: inprogress'
           type: DEPENDENT
@@ -408,6 +454,11 @@ zabbix_export:
               tag: skatdpi
             -
               tag: subscribers
+        -
+          uuid: 58cf7006de8d4a92ae499e6ab31bcd4f
+          name: 'Number of multiple IP subscribers'
+          key: skatdpi.subs.bind_multi.count
+          description: 'Number of subscribers with (possibly) multiple IP addresses bound (--bind_multi).'
       discovery_rules:
         -
           uuid: afd808276b284651b6dfaec23eb006a8
@@ -983,6 +1034,62 @@ zabbix_export:
         -
           tag: skatdpi
   graphs:
+    -
+      uuid: 5b9332dcf9a44a1fb25b9ed0e1c3e267
+      name: Subscribers
+      show_work_period: 'NO'
+      show_triggers: 'NO'
+      graph_items:
+        -
+          drawtype: FILLED_REGION
+          color: 388E3C
+          calc_fnc: ALL
+          item:
+            host: SkatDPI
+            key: skatdpi.subs.auth.authorized.active
+        -
+          sortorder: '1'
+          drawtype: FILLED_REGION
+          color: C8E6C9
+          calc_fnc: ALL
+          item:
+            host: SkatDPI
+            key: skatdpi.subs.auth.authorized.expired
+        -
+          sortorder: '2'
+          color: FFBF00
+          calc_fnc: MIN
+          item:
+            host: SkatDPI
+            key: skatdpi.subs.auth.inprogress
+        -
+          sortorder: '3'
+          color: FFEB3B
+          calc_fnc: MIN
+          item:
+            host: SkatDPI
+            key: skatdpi.subs.auth.inprogress_abj
+        -
+          sortorder: '4'
+          color: FF0000
+          calc_fnc: MIN
+          item:
+            host: SkatDPI
+            key: skatdpi.subs.auth.unauthorized
+        -
+          sortorder: '5'
+          color: B4B4B4
+          calc_fnc: MIN
+          item:
+            host: SkatDPI
+            key: skatdpi.subs.auth.unknown
+        -
+          sortorder: '6'
+          color: 0040FF
+          calc_fnc: MIN
+          item:
+            host: SkatDPI
+            key: skatdpi.subs.bind_multi.count
     -
       uuid: 22687feb1edc465391c5348150e67935
       name: 'Total packets for In Bridge'
