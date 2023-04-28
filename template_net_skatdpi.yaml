@@ -1,6 +1,6 @@
 zabbix_export:
   version: '6.2'
-  date: '2023-01-16T07:48:28Z'
+  date: '2023-05-10T06:39:27Z'
   template_groups:
     -
       uuid: 7df96b18c230490a9a0a9e2307226338
@@ -26,7 +26,7 @@ zabbix_export:
       items:
         -
           uuid: 2c99abaebab74dd0805da836b5377736
-          name: 'Total inbound traffic for In Bridge'
+          name: 'Total RX traffic for IN Interfaces'
           type: CALCULATED
           key: dpi.int.bridge_in.in
           units: bps
@@ -39,7 +39,7 @@ zabbix_export:
               tag: skatdpi
         -
           uuid: 3f54a984863243d99f3db18036a28811
-          name: 'Total inbound packets with errors for In Bridge'
+          name: 'Total RX packets with errors for IN Interfaces'
           type: CALCULATED
           key: dpi.int.bridge_in.in.errors
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in.errors[*,in]))'
@@ -51,7 +51,7 @@ zabbix_export:
               tag: skatdpi
         -
           uuid: e137168b1a274e92a9534095728768ac
-          name: 'Total inbound packets for In Bridge'
+          name: 'Total RX packets for IN Interfaces'
           type: CALCULATED
           key: dpi.int.bridge_in.in.pkts
           units: pps
@@ -64,7 +64,7 @@ zabbix_export:
               tag: skatdpi
         -
           uuid: 1e49b0aa81a94c449620cbc29ec0fa92
-          name: 'Total outbound traffic for In Bridge'
+          name: 'Total TX traffic for IN Interfaces'
           type: CALCULATED
           key: dpi.int.bridge_in.out
           units: bps
@@ -77,7 +77,7 @@ zabbix_export:
               tag: skatdpi
         -
           uuid: 25fe2a650d634a6297721fcb261985fd
-          name: 'Total outbound packets with errors for In Bridge'
+          name: 'Total TX packets with errors for IN Interfaces'
           type: CALCULATED
           key: dpi.int.bridge_in.out.errors
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out.errors[*,in]))'
@@ -89,7 +89,7 @@ zabbix_export:
               tag: skatdpi
         -
           uuid: 22bbd3dbd9dc4960b177bd603b23addb
-          name: 'Total outbound packets for In Bridge'
+          name: 'Total TX packets for IN Interfaces'
           type: CALCULATED
           key: dpi.int.bridge_in.out.pkts
           units: pps
@@ -102,7 +102,7 @@ zabbix_export:
               tag: skatdpi
         -
           uuid: f2fd7ffffdfa4485b2aad48612401b47
-          name: 'Total inbound traffic for Out Bridge'
+          name: 'Total RX traffic for OUT Interfaces'
           type: CALCULATED
           key: dpi.int.bridge_out.in
           units: bps
@@ -115,7 +115,7 @@ zabbix_export:
               tag: skatdpi
         -
           uuid: e762efc6ff1a47e1aafab280ff3f2b83
-          name: 'Total inbound packets with errors for Out Bridge'
+          name: 'Total RX packets with errors for OUT Interfaces'
           type: CALCULATED
           key: dpi.int.bridge_out.in.errors
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.in.errors[*,out]))'
@@ -127,7 +127,7 @@ zabbix_export:
               tag: skatdpi
         -
           uuid: 500eba7d27a14ba88255f8b291f731f4
-          name: 'Total inbound packets for Out Bridge'
+          name: 'Total RX packets for OUT Interfaces'
           type: CALCULATED
           key: dpi.int.bridge_out.in.pkts
           units: pps
@@ -139,21 +139,8 @@ zabbix_export:
             -
               tag: skatdpi
         -
-          uuid: 291144f5540b4c63b26201f66c206e9f
-          name: 'Total outbound traffic for Out Bridge'
-          type: CALCULATED
-          key: dpi.int.bridge_out.out
-          units: bps
-          params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out[*,out]))'
-          tags:
-            -
-              tag: component
-              value: network
-            -
-              tag: skatdpi
-        -
           uuid: e5d72550727b43f4b14937b34e820458
-          name: 'Total outbound packets with errors for Out Bridge'
+          name: 'Total TX packets with errors for OUT Interfaces'
           type: CALCULATED
           key: dpi.int.bridge_out.out.errors
           params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out.errors[*,out]))'
@@ -165,7 +152,7 @@ zabbix_export:
               tag: skatdpi
         -
           uuid: 54d6963f939c4ebdb018c0c8dda3c077
-          name: 'Total outbound packets for Out Bridge'
+          name: 'Total TX packets for OUT Interfaces'
           type: CALCULATED
           key: dpi.int.bridge_out.out.pkts
           units: pps
@@ -194,7 +181,7 @@ zabbix_export:
           logtimefmt: '+++++++++++yyyy/MM/dd-hh:mm:ss'
         -
           uuid: 4498f7da0a314562a7fcc88469a13d96
-          name: 'FastDPI control port state'
+          name: 'FastDPI control port status'
           key: 'net.tcp.service[tcp,,{$SKATDPI_FASTDPI_CONTROL_PORT}]'
           history: 30d
           tags:
@@ -214,7 +201,7 @@ zabbix_export:
                   tag: skatdpi
         -
           uuid: b6ac1850df384b4495ba946aabf23e6e
-          name: 'FastPCRF server #1 is accepting conections'
+          name: 'FastPCRF server #1 status'
           key: 'net.tcp.service[tcp,{$SKATDPI_FASTPCRF_ADDRESS_1},{$SKATDPI_FASTPCRF_PORT_1}]'
           description: 'Check if FastPCRF server is accessible from SkatDPI server.'
           tags:
@@ -237,9 +224,8 @@ zabbix_export:
                   tag: skatdpi
         -
           uuid: ef369be50d344808822f9d0b51774dc0
-          name: 'FastPCRF server #2 is accepting conections'
+          name: 'FastPCRF server #2 status'
           key: 'net.tcp.service[tcp,{$SKATDPI_FASTPCRF_ADDRESS_2},{$SKATDPI_FASTPCRF_PORT_2}]'
-          status: DISABLED
           tags:
             -
               tag: component
@@ -255,6 +241,113 @@ zabbix_export:
               expression: 'last(/Template SkatDPI/net.tcp.service[tcp,{$SKATDPI_FASTPCRF_ADDRESS_2},{$SKATDPI_FASTPCRF_PORT_2}])=0'
               name: 'FastPCRF Server #2 is not accessible'
               priority: HIGH
+        -
+          uuid: 8e5bcdbba4634c398ecd7650d29423dd
+          name: 'Total illegitimate drops (receiving buffer is full)'
+          type: DEPENDENT
+          key: skatdpi.absolute_stats_rcvd.drops.rx
+          delay: '0'
+          history: 7d
+          trends: '0'
+          units: pps
+          description: 'Суммарные потери из-за переполненного буфера сетевой карты.'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - '(\d+)\+(\d+)=(\d+) pkts dropped'
+                - \1
+            -
+              type: CHANGE_PER_SECOND
+              parameters:
+                - ''
+          master_item:
+            key: skatdpi.userparam.absolute_stats_rcvd
+          tags:
+            -
+              tag: application
+              value: fastdpi
+            -
+              tag: component
+              value: network
+            -
+              tag: skatdpi
+        -
+          uuid: 0daa528e004e4c18af3cda6927849a52
+          name: 'Total illegitimate drops (processing/sending error)'
+          type: DEPENDENT
+          key: skatdpi.absolute_stats_rcvd.drops.tx
+          delay: '0'
+          history: 7d
+          trends: '0'
+          units: pps
+          description: 'Суммарные потери (pps) из-за того, что СКАТ не смог обработать или отправить трафик: не хватило ресурсов CPU или исходящий порт не подключен.'
+          preprocessing:
+            -
+              type: REGEX
+              parameters:
+                - '(\d+)\+(\d+)=(\d+) pkts dropped'
+                - \2
+            -
+              type: CHANGE_PER_SECOND
+              parameters:
+                - ''
+          master_item:
+            key: skatdpi.userparam.absolute_stats_rcvd
+          tags:
+            -
+              tag: application
+              value: fastdpi
+            -
+              tag: component
+              value: network
+            -
+              tag: skatdpi
+        -
+          uuid: e9ead830a86d4a788c37a5d79119246a
+          name: 'Total legitimate drops for IN Interfaces'
+          type: CALCULATED
+          key: skatdpi.int.total_in.drops
+          units: pps
+          params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.drops[*,in]))'
+          tags:
+            -
+              tag: component
+              value: network
+            -
+              tag: packets
+              value: dropped
+            -
+              tag: skatdpi
+        -
+          uuid: 246b8cdedd4d4634ba243183de17d3f7
+          name: 'Total legitimate drops for OUT Interfaces'
+          type: CALCULATED
+          key: skatdpi.int.total_out.drops
+          units: pps
+          params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.drops[*,out]))'
+          tags:
+            -
+              tag: component
+              value: network
+            -
+              tag: packets
+              value: dropped
+            -
+              tag: skatdpi
+        -
+          uuid: 291144f5540b4c63b26201f66c206e9f
+          name: 'Total TX traffic for OUT Interfaces'
+          type: CALCULATED
+          key: skatdpi.int.total_out.out
+          units: bps
+          params: 'sum(last_foreach(/{HOST.HOST}/dpi.int.out[*,out]))'
+          tags:
+            -
+              tag: component
+              value: network
+            -
+              tag: skatdpi
         -
           uuid: 2daa69b94b9941319b8d3bb4e3edf452
           name: 'Subscribers with auth status: authorized'
@@ -460,6 +553,29 @@ zabbix_export:
           key: skatdpi.subs.bind_multi.count
           description: 'Number of subscribers with (possibly) multiple IP addresses bound (--bind_multi).'
         -
+          uuid: 9cd250a73cdc4f3faa6379549f7bedc2
+          name: 'Absolute Stats Rcvd'
+          key: skatdpi.userparam.absolute_stats_rcvd
+          history: '0'
+          trends: '0'
+          value_type: CHAR
+          description: |
+            Cluster #0 Absolute Stats Rcvd: [771941009199 pkts][600400972660059 bytes][0+292207154=292207154 pkts dropped]
+            
+            Получение счётчика ][0+292207154=292207154 pkts dropped]" для последующей обработки.
+            
+            Первая цифра: потеря на порту, т.е. скат не cмог принять, весь буфер на сетевой карте был занят
+            Вторая цифра: скат не смог обработать или отправить: не хватило ресурсов CPU или исходящий порт не подключен.
+          tags:
+            -
+              tag: application
+              value: fastdpi
+            -
+              tag: component
+              value: network
+            -
+              tag: skatdpi
+        -
           uuid: 3c65610e1c624b39948eccb3f69494a6
           name: 'Log files in /var/log/dpi'
           key: 'vfs.dir.get[/var/log/dpi,^fastdpi_.*\.log$]'
@@ -470,12 +586,12 @@ zabbix_export:
         -
           uuid: afd808276b284651b6dfaec23eb006a8
           name: 'Discover interfaces'
-          key: dpi.int.discovery
+          key: skatdpi.discovery.interfaces
           delay: 1d
           item_prototypes:
             -
               uuid: 9a877e5cb7fb4946a15e505cfc744c5a
-              name: 'Interface statistics for {#IFNAME}'
+              name: 'Interface statistics for {#IFNAME} (log)'
               key: 'dpi.int.allstats[{#IFNAME},{#IFBRIDGE}]'
               history: '0'
               trends: '0'
@@ -491,9 +607,9 @@ zabbix_export:
                   tag: skatdpi
             -
               uuid: 5f69ceef0f65431ab91c22a89bd9b46a
-              name: 'Interface {#IFNAME}: packets dropped by fastdpi (log)'
+              name: 'Interface {#IFNAME}: Packets dropped (log)'
               type: DEPENDENT
-              key: 'dpi.int.fastdpi.dropped[{#IFNAME},{#IFBRIDGE}]'
+              key: 'dpi.int.drops[{#IFNAME},{#IFBRIDGE}]'
               delay: '0'
               history: 30d
               units: pps
@@ -518,6 +634,69 @@ zabbix_export:
                   tag: interface
                   value: '{#IFNAME}'
                 -
+                  tag: packets
+                  value: dropped
+                -
+                  tag: skatdpi
+            -
+              uuid: 1a3e38228b554d829610090f39c66dd9
+              name: 'Interface {#IFNAME}: Errors when generating packets (log)'
+              type: DEPENDENT
+              key: 'dpi.int.error_generating_packets[{#IFNAME},{#IFBRIDGE}]'
+              delay: '0'
+              history: 30d
+              units: pps
+              description: 'Sending errors.'
+              preprocessing:
+                -
+                  type: REGEX
+                  parameters:
+                    - '(?s)(?<=Actual).*?Eemt.*?([0-9\.]*)\s*err_pkts'
+                    - \1
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+              master_item:
+                key: 'dpi.int.allstats[{#IFNAME},{#IFBRIDGE}]'
+              tags:
+                -
+                  tag: component
+                  value: network
+                -
+                  tag: interface
+                  value: '{#IFNAME}'
+                -
+                  tag: skatdpi
+            -
+              uuid: ad0fdfca351749b780deeb3d25339cb9
+              name: 'Interface {#IFNAME}: Errors when sending packets (log)'
+              type: DEPENDENT
+              key: 'dpi.int.error_sending_packets[{#IFNAME},{#IFBRIDGE}]'
+              delay: '0'
+              history: 30d
+              units: pps
+              description: 'Sending errors.'
+              preprocessing:
+                -
+                  type: REGEX
+                  parameters:
+                    - '(?s)(?<=Actual).*?Esnd.*?([0-9\.]*)\s*err_pkts'
+                    - \1
+                -
+                  type: CHANGE_PER_SECOND
+                  parameters:
+                    - ''
+              master_item:
+                key: 'dpi.int.allstats[{#IFNAME},{#IFBRIDGE}]'
+              tags:
+                -
+                  tag: component
+                  value: network
+                -
+                  tag: interface
+                  value: '{#IFNAME}'
+                -
                   tag: skatdpi
             -
               uuid: bb1eb99190134e09b36955c6dba9acb8
@@ -526,18 +705,20 @@ zabbix_export:
               key: 'dpi.int.in.drops[{#IFNAME},{#IFBRIDGE}]'
               delay: '0'
               history: 30d
+              units: pps
               preprocessing:
                 -
                   type: REGEX
                   parameters:
                     - rx_dropped_packets=(\d+)
                     - \1
+                  error_handler: DISCARD_VALUE
                 -
                   type: CHANGE_PER_SECOND
                   parameters:
                     - ''
               master_item:
-                key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
+                key: 'skatdpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
                   tag: component
@@ -554,6 +735,7 @@ zabbix_export:
               key: 'dpi.int.in.errors[{#IFNAME},{#IFBRIDGE}]'
               delay: '0'
               history: 30d
+              units: pps
               preprocessing:
                 -
                   type: REGEX
@@ -565,7 +747,7 @@ zabbix_export:
                   parameters:
                     - ''
               master_item:
-                key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
+                key: 'skatdpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
                   tag: component
@@ -577,19 +759,28 @@ zabbix_export:
                   tag: skatdpi
             -
               uuid: a18aea6717c14bb9964ee3e134bfa9cd
-              name: 'Interface {#IFNAME}: Bits received'
+              name: 'Interface {#IFNAME}: Bits received (log)'
               type: DEPENDENT
               key: 'dpi.int.in.mbits[{#IFNAME},{#IFBRIDGE}]'
               delay: '0'
               history: 30d
               value_type: FLOAT
-              units: '!Mbps'
+              units: bps
               preprocessing:
                 -
                   type: REGEX
                   parameters:
-                    - '(?s)(?<=Actual).*?Rcvd.*?([0-9\.]*)\s*Mbit/sec'
+                    - '(?s)(?<=Actual).*?Rcvd.*?([0-9\.'']*)\s*Mbit/sec'
                     - \1
+                -
+                  type: STR_REPLACE
+                  parameters:
+                    - ''''
+                    - ''
+                -
+                  type: MULTIPLIER
+                  parameters:
+                    - '1000000'
               master_item:
                 key: 'dpi.int.allstats[{#IFNAME},{#IFBRIDGE}]'
               tags:
@@ -620,7 +811,7 @@ zabbix_export:
                   parameters:
                     - ''
               master_item:
-                key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
+                key: 'skatdpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
                   tag: component
@@ -632,7 +823,7 @@ zabbix_export:
                   tag: skatdpi
             -
               uuid: f3a0a7a38d694eef805dae843c1f492c
-              name: 'Interface {#IFNAME}: Inbound packets'
+              name: 'Interface {#IFNAME}: Packets received (log)'
               type: DEPENDENT
               key: 'dpi.int.in.pkt_sec[{#IFNAME},{#IFBRIDGE}]'
               delay: '0'
@@ -684,7 +875,7 @@ zabbix_export:
                   parameters:
                     - ''
               master_item:
-                key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
+                key: 'skatdpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
                   tag: component
@@ -701,18 +892,20 @@ zabbix_export:
               key: 'dpi.int.out.drops[{#IFNAME},{#IFBRIDGE}]'
               delay: '0'
               history: 30d
+              units: pps
               preprocessing:
                 -
                   type: REGEX
                   parameters:
                     - tx_dropped_packets=(\d+)
                     - \1
+                  error_handler: DISCARD_VALUE
                 -
                   type: CHANGE_PER_SECOND
                   parameters:
                     - ''
               master_item:
-                key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
+                key: 'skatdpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
                   tag: component
@@ -729,6 +922,7 @@ zabbix_export:
               key: 'dpi.int.out.errors[{#IFNAME},{#IFBRIDGE}]'
               delay: '0'
               history: 30d
+              units: pps
               preprocessing:
                 -
                   type: REGEX
@@ -740,7 +934,7 @@ zabbix_export:
                   parameters:
                     - ''
               master_item:
-                key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
+                key: 'skatdpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
                   tag: component
@@ -752,23 +946,28 @@ zabbix_export:
                   tag: skatdpi
             -
               uuid: 9f6872f466264050aa541cedaddb6d30
-              name: 'Interface {#IFNAME}: Bits sent'
+              name: 'Interface {#IFNAME}: Bits sent (log)'
               type: DEPENDENT
               key: 'dpi.int.out.mbits[{#IFNAME},{#IFBRIDGE}]'
               delay: '0'
               history: 30d
               value_type: FLOAT
-              units: '!Mbps'
+              units: bps
               preprocessing:
                 -
                   type: REGEX
                   parameters:
-                    - '(?s)(?<=Actual).*?Drop.*?([0-9\.]*)\s*pkts'
+                    - '(?s)(?<=Actual).*?Send.*?([0-9\.'']*)\s*Mbit/sec'
                     - \1
                 -
-                  type: CHANGE_PER_SECOND
+                  type: STR_REPLACE
                   parameters:
+                    - ''''
                     - ''
+                -
+                  type: MULTIPLIER
+                  parameters:
+                    - '1000000'
               master_item:
                 key: 'dpi.int.allstats[{#IFNAME},{#IFBRIDGE}]'
               tags:
@@ -799,7 +998,7 @@ zabbix_export:
                   parameters:
                     - ''
               master_item:
-                key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
+                key: 'skatdpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
                   tag: component
@@ -811,7 +1010,7 @@ zabbix_export:
                   tag: skatdpi
             -
               uuid: 7bc662bc7b9d4521831352142225e099
-              name: 'Interface {#IFNAME}: Outbound packets'
+              name: 'Interface {#IFNAME}: Packets sent (log)'
               type: DEPENDENT
               key: 'dpi.int.out.pkt_sec[{#IFNAME},{#IFBRIDGE}]'
               delay: '0'
@@ -863,7 +1062,7 @@ zabbix_export:
                   parameters:
                     - ''
               master_item:
-                key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
+                key: 'skatdpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
                   tag: component
@@ -900,7 +1099,7 @@ zabbix_export:
                         return 0;
                       }
               master_item:
-                key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
+                key: 'skatdpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               tags:
                 -
                   tag: component
@@ -920,14 +1119,14 @@ zabbix_export:
                        last(/Template SkatDPI/dpi.int.status[{#IFNAME},{#IFBRIDGE}],#2))
                   name: 'Interface {#DEVNAME}: Link down'
                   opdata: 'Current state: {ITEM.LASTVALUE1}'
-                  priority: AVERAGE
+                  priority: HIGH
                   tags:
                     -
                       tag: skatdpi
             -
               uuid: d154536b7c624f7d8f5c0319642a2d4f
               name: 'Interface statistics for {#IFNAME} (xstat)'
-              key: 'dpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
+              key: 'skatdpi.int.xstat[{#IFNAME},{#IFBRIDGE}]'
               history: '0'
               trends: '0'
               value_type: TEXT
@@ -947,7 +1146,7 @@ zabbix_export:
               path: $.name
             -
               lld_macro: '{#IFBRIDGE}'
-              path: $.bridge
+              path: $.direction
         -
           uuid: 197610b344754e0ea91278bb0ec08345
           name: 'Discovery of DPI log files'
@@ -981,7 +1180,7 @@ zabbix_export:
           tag: skatdpi
       macros:
         -
-          macro: '{$SKATDPI_AUTHORIZED_SUBSCRIBERS_PERCENTAGE}'
+          macro: '{$SKATDPI_AUTHORIZED_SUBSCRIBERS_WARNING}'
           value: '90'
         -
           macro: '{$SKATDPI_FASTDPI_ALERT_LOG}'
@@ -989,6 +1188,9 @@ zabbix_export:
         -
           macro: '{$SKATDPI_FASTDPI_CONTROL_PORT}'
           value: '29000'
+        -
+          macro: '{$SKATDPI_TOTAL_DROPS_WARN}'
+          value: '100'
       dashboards:
         -
           uuid: bea68c27bb884addad967a1bec303156
@@ -1006,7 +1208,7 @@ zabbix_export:
                       name: graphid
                       value:
                         host: 'Template SkatDPI'
-                        name: 'Total traffic for In Bridge'
+                        name: 'Total traffic for IN interfaces'
                 -
                   type: GRAPH_CLASSIC
                   'y': '4'
@@ -1018,7 +1220,7 @@ zabbix_export:
                       name: graphid
                       value:
                         host: 'Template SkatDPI'
-                        name: 'Total traffic for Out Bridge'
+                        name: 'Total traffic for OUT interfaces'
                 -
                   type: GRAPH_CLASSIC
                   x: '12'
@@ -1030,7 +1232,7 @@ zabbix_export:
                       name: graphid
                       value:
                         host: 'Template SkatDPI'
-                        name: 'Total packets for In Bridge'
+                        name: 'Total packets for IN interfaces'
                 -
                   type: GRAPH_CLASSIC
                   x: '12'
@@ -1043,7 +1245,7 @@ zabbix_export:
                       name: graphid
                       value:
                         host: 'Template SkatDPI'
-                        name: 'Total packets for Out Bridge'
+                        name: 'Total packets for OUT interfaces'
       valuemaps:
         -
           uuid: 92affb9545924c67a55c701c24031136
@@ -1058,14 +1260,57 @@ zabbix_export:
   triggers:
     -
       uuid: 516fd374009f420390248a40a5c4fc85
-      expression: 'last(/Template SkatDPI/skatdpi.subs.auth.authorized) < last(/Template SkatDPI/skatdpi.subs.auth.total) * ({$SKATDPI_AUTHORIZED_SUBSCRIBERS_PERCENTAGE}/100)'
+      expression: 'last(/Template SkatDPI/skatdpi.subs.auth.authorized) < last(/Template SkatDPI/skatdpi.subs.auth.total) * ({$SKATDPI_AUTHORIZED_SUBSCRIBERS_WARNING}/100)'
       name: 'Authorization ratio is low'
       opdata: '{ITEM.VALUE1} subscribers are authorized out of total {ITEM.VALUE2}'
       priority: WARNING
       tags:
         -
           tag: skatdpi
+    -
+      uuid: 9030e185359041f79757b90b54d5cf02
+      expression: 'min(/Template SkatDPI/skatdpi.absolute_stats_rcvd.drops.rx,5m)>{$SKATDPI_TOTAL_DROPS_WARN} or min(/Template SkatDPI/skatdpi.absolute_stats_rcvd.drops.tx,5m)>{$SKATDPI_TOTAL_DROPS_WARN}'
+      recovery_mode: RECOVERY_EXPRESSION
+      recovery_expression: |
+        max(/Template SkatDPI/skatdpi.absolute_stats_rcvd.drops.rx,5m)=0 or
+        max(/Template SkatDPI/skatdpi.absolute_stats_rcvd.drops.tx,5m)=0
+      name: 'Too many illegitimate drops'
+      opdata: 'RX drops: {ITEM.LASTVALUE1}, TX drops: {ITEM.LASTVALUE2}'
+      priority: AVERAGE
   graphs:
+    -
+      uuid: 9a968a93aae14f10a3810aeb410a5d7d
+      name: Drops
+      show_work_period: 'NO'
+      show_triggers: 'NO'
+      graph_items:
+        -
+          color: 1A7C11
+          calc_fnc: MIN
+          item:
+            host: 'Template SkatDPI'
+            key: skatdpi.int.total_in.drops
+        -
+          sortorder: '1'
+          color: '274482'
+          calc_fnc: MIN
+          item:
+            host: 'Template SkatDPI'
+            key: skatdpi.int.total_out.drops
+        -
+          sortorder: '2'
+          color: FF0080
+          calc_fnc: MIN
+          item:
+            host: 'Template SkatDPI'
+            key: skatdpi.absolute_stats_rcvd.drops.rx
+        -
+          sortorder: '3'
+          color: CC6600
+          calc_fnc: MIN
+          item:
+            host: 'Template SkatDPI'
+            key: skatdpi.absolute_stats_rcvd.drops.tx
     -
       uuid: 5b9332dcf9a44a1fb25b9ed0e1c3e267
       name: Subscribers
@@ -1124,7 +1369,7 @@ zabbix_export:
             key: skatdpi.subs.bind_multi.count
     -
       uuid: 22687feb1edc465391c5348150e67935
-      name: 'Total packets for In Bridge'
+      name: 'Total packets for IN interfaces'
       graph_items:
         -
           color: 1A7C11
@@ -1141,7 +1386,7 @@ zabbix_export:
             key: dpi.int.bridge_in.out.pkts
     -
       uuid: 45290da0d7844889be8d91b28348d12e
-      name: 'Total packets for Out Bridge'
+      name: 'Total packets for OUT interfaces'
       graph_items:
         -
           color: 1A7C11
@@ -1158,7 +1403,7 @@ zabbix_export:
             key: dpi.int.bridge_out.out.pkts
     -
       uuid: 5d68ed822a6149cc86810dcc2e93baf7
-      name: 'Total traffic for In Bridge'
+      name: 'Total traffic for IN interfaces'
       graph_items:
         -
           drawtype: GRADIENT_LINE
@@ -1177,7 +1422,7 @@ zabbix_export:
             key: dpi.int.bridge_in.out
     -
       uuid: 1d4b1bd2dfde4fcb8f487de24e09b6ac
-      name: 'Total traffic for Out Bridge'
+      name: 'Total traffic for OUT interfaces'
       graph_items:
         -
           drawtype: GRADIENT_LINE
@@ -1193,4 +1438,4 @@ zabbix_export:
           calc_fnc: ALL
           item:
             host: 'Template SkatDPI'
-            key: dpi.int.bridge_out.out
+            key: skatdpi.int.total_out.out
